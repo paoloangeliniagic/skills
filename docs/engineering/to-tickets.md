@@ -61,7 +61,7 @@ Slicing decides what each ticket builds. Coverage checks that nothing in the spe
 | --- | --- |
 | `## Stories covered` | Each story, verbatim, with its ID |
 | `## Invariants covered` | Each invariant, verbatim, with its ID |
-| `## Seams` | Each seam's ID, restated in one line for this ticket |
+| `## Seams` | Each seam's ID, restated in one line for this ticket, plus the `Verifies: US…, I…` subset of stories and invariants it verifies |
 | `## Constraints (ADR)` | Each binding ADR line, narrowed to this ticket but never widened |
 
 The quiz shows a `Covers:` line under each ticket, and after the list a `Coverage gaps` block with only what no ticket covers, plus any ADR the spec forgot to cite and any ADR conflict found here. The check reports gaps; it never blocks. Every gap still needs one of three answers before publishing:
@@ -84,7 +84,7 @@ This is the failure the vertical-slice rule is written against, and the skill st
 This used to fail silently. One user's spec had about 85 user stories and a critical invariant that the new writers must produce the complete serving model; a later ticket excluded that work as "another ticket" that was never created, and the gap surfaced only in the test environment ([issue #924](https://github.com/mattpocock/skills/issues/924)). Another report asked for the spec's commitments to be carried into every ticket that needs them, not left behind a parent link ([issue #959](https://github.com/mattpocock/skills/issues/959)). Now each story and invariant travels by ID, and the quiz's `Coverage gaps` block lists every one that no ticket covers before anything is published. Stories and invariants the spec already accepted as verified at no seam still need a ticket, so an accepted seam gap never hides unbuilt behaviour.
 
 **The seams I agreed in `/to-spec` weren't in the tickets.**
-They weren't: neither ticket template had a field for them, so the agreement was made, confirmed, and lost at this boundary ([issue #1078](https://github.com/mattpocock/skills/issues/1078)). Each ticket now has a `## Seams` section with the seams it is tested at, by ID, and [implement](https://aihero.dev/skills-implement) treats those as pre-agreed. A seam that no ticket carries shows up as a coverage gap.
+They weren't: neither ticket template had a field for them, so the agreement was made, confirmed, and lost at this boundary ([issue #1078](https://github.com/mattpocock/skills/issues/1078)). Each ticket now has a `## Seams` section with the seams it is tested at, by ID, plus the story and invariant IDs each seam verifies. [Implement](https://aihero.dev/skills-implement) treats those seams as pre-agreed. A seam that no ticket carries shows up as a coverage gap.
 
 **On GitHub the tickets weren't created as sub-issues of the spec issue.**
 This was reported across a dozen runs and several models, [most fully in issue #554](https://github.com/mattpocock/skills/issues/554). Fixed: `to-tickets` now makes each ticket a sub-issue of its source issue, and the GitHub tracker template gives the command (`gh issue create --parent <n>`, `gh` 2.94+). Re-run [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) to refresh an older `docs/agents/issue-tracker.md`.
@@ -109,6 +109,7 @@ The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is
 - Every ticket has an answer to "what can I demo when this is done?", and the answer is behaviour, not a layer.
 - The list comes back to you numbered, with a "Blocked by" line on each, before anything is published.
 - When the source has traceability IDs, every ticket has a `Covers:` line, and every gap has an explicit answer before publishing.
+- Each seam in a ticket lists the `US<n>` and `I<n>` IDs it verifies.
 - The ticket at the top has no blockers and can be started immediately.
 - Nothing in a ticket body is a file path or a line number, except ADR links and prototype snippets.
 - Each ticket reads like something a fresh session could finish without you in the room.

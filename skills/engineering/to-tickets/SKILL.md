@@ -43,7 +43,7 @@ Give each ticket the traceability items it covers, copied from the source:
 
 - **Stories covered**: each relevant story, verbatim, with its `US<n>`.
 - **Invariants covered**: each relevant invariant, verbatim, with its `I<n>`.
-- **Seams**: each relevant seam, keeping its `S<n>`, restated in one line for this ticket.
+- **Seams**: each relevant seam, keeping its `S<n>`, restated in one line for this ticket, plus the subset of story and invariant IDs it verifies as `Verifies: US…, I…`.
 - **Constraints (ADR)**: each relevant line from the spec's `## Constraints (ADR)`. You may narrow it to the part this ticket touches, never widen it. A "contradicted, worth reopening" line travels unchanged and adds the acceptance criterion "ADR-NNNN updated or superseded by a new ADR".
 
 A story or invariant that spans several tickets carries the same ID in each, with no partial-coverage markers or sub-IDs.
@@ -127,7 +127,7 @@ Do NOT close the parent issue or edit its body: the `Coverage` comment is the on
 
 ## Seams
 
-- S1: <one line, restated for this ticket>
+- S1: <one line, restated for this ticket>; Verifies: US3, I2
 
 ## Constraints (ADR)
 
@@ -161,7 +161,7 @@ The end-to-end behaviour this ticket makes work, from the user's perspective, no
 
 ## Seams
 
-- S1: <one line, restated for this ticket>
+- S1: <one line, restated for this ticket>; Verifies: US3, I2
 
 ## Constraints (ADR)
 
