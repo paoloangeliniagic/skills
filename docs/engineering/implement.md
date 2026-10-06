@@ -32,7 +32,7 @@ If the tickets came from [to-tickets](https://aihero.dev/skills-to-tickets), [se
 
 A run has five steps, in order:
 
-1. Read the ticket or spec and work out the seams.
+1. Read the ticket or spec, including its stories, invariants, seams and ADR constraints where it has them.
 2. Drive [tdd](https://aihero.dev/skills-tdd) at the pre-agreed seams, one red-green slice at a time.
 3. Typecheck often, run single test files as it goes.
 4. Run the full test suite once, at the end.
@@ -44,7 +44,15 @@ One run covers one ticket. The tickets [to-tickets](https://aihero.dev/skills-to
 
 The skill's central idea is the **seam**, the public boundary you observe behaviour at without reaching inside. Tests live at seams. When the seam is agreed before any code exists, the tests last, and you can rewrite the implementation underneath without changing them.
 
-The "pre-agreed" part matters, and it is also the skill's weakest point. Nothing inside `implement` agrees the seams. `tdd` is the skill that asks, and it refuses to write a test at an unconfirmed seam. So in practice the agreement happens either upstream in the spec, or in the first exchange of the run. If it happens nowhere, the run becomes "just write the code" and nothing warns you. Naming the seams in the spec is what stops that.
+The "pre-agreed" part matters. The agreement happens upstream, at the [to-spec](https://aihero.dev/skills-to-spec) checkpoint, and the seams arrive in the ticket's `## Seams` section, carried there by [to-tickets](https://aihero.dev/skills-to-tickets). `implement` reads that section together with the ticket's stories, invariants and ADR constraints, and then:
+
+- treats the listed seams as pre-agreed, so `tdd` doesn't ask about them again;
+- treats the stories and invariants as the behaviours the tests verify, so expected values come from the spec rather than from the code;
+- pins each invariant that must be preserved first: its test is written at the listed seam and passes on the current code before anything changes;
+- asks you when a story or invariant can't be verified at the listed seams. In an [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) run it adds no seam on its own; it reports the gap in its summary and as a comment on the ticket;
+- checks every ADR constraint line before running `code-review`.
+
+The weakest joint is input with none of those sections: a plain plan, the conversation, or a ticket written before them. Then nothing inside `implement` agrees the seams. `tdd` is the skill that asks, and it refuses to write a test at an unconfirmed seam, so the agreement happens in the first exchange of the run. If it happens nowhere, the run becomes "just write the code" and nothing warns you.
 
 ## Common questions
 
@@ -81,6 +89,7 @@ The agent resolves `#2` against whatever numbered list it can see. In a fresh se
 - Typechecks and single test files run repeatedly during the run, and the full suite runs once near the end.
 - The run reaches a commit on your current branch without you prompting it to carry on.
 - The diff is one ticket's worth of change: a vertical slice through every layer, not several tickets swept together.
+- The run's report names any seam it wanted but the ticket didn't list.
 
 ## Where it fits
 
