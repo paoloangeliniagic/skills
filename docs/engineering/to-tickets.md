@@ -64,7 +64,13 @@ Slicing decides what each ticket builds. Coverage checks that nothing in the spe
 | `## Seams` | Each seam's ID, restated in one line for this ticket |
 | `## Constraints (ADR)` | Each binding ADR line, narrowed to this ticket but never widened |
 
-The quiz shows a `Covers:` line under each ticket, and after the list a `Coverage gaps` block with only what no ticket covers, plus any ADR the spec forgot to cite and any ADR conflict found here. The check reports gaps; it never blocks. Every gap still needs an answer before publishing: cover it, move it out of scope, or accept it with a reason. The out-of-scope and accepted answers land in one `Coverage` comment on the parent spec, so the decision survives without anyone editing the spec body. A plain plan or an older spec with no IDs skips the check with one line and goes through as before.
+The quiz shows a `Covers:` line under each ticket, and after the list a `Coverage gaps` block with only what no ticket covers, plus any ADR the spec forgot to cite and any ADR conflict found here. The check reports gaps; it never blocks. Every gap still needs one of three answers before publishing:
+
+- **Cover** it: add it to a ticket, or create one.
+- **Out of scope**, with a reason (stories and invariants only).
+- **Accept** it, with a reason: nothing will be built for it.
+
+The out-of-scope and accepted answers land in one `Coverage` comment on the parent spec, so the decision survives without anyone editing the spec body. A plain plan or an older spec with no IDs skips the check with one line and goes through as before.
 
 ## Common questions
 
@@ -75,7 +81,7 @@ Over-decomposition is the most reported problem with this skill, and many users 
 This is the failure the vertical-slice rule is written against, and the skill still produces it sometimes. Catch it at the quiz step by asking one question per ticket: what can I demo when this is done? A ticket with no answer is a horizontal slice. Some people add a "demo path" line to each ticket for this reason, and report that it pushes the model toward vertical slices.
 
 **A requirement from the spec never made it into any ticket.**
-This used to fail silently. One user's spec had about 85 user stories and a critical invariant that the new writers must produce the complete serving model; a later ticket excluded that work as "another ticket" that was never created, and the gap surfaced only in the test environment ([issue #924](https://github.com/mattpocock/skills/issues/924)). Another report asked for the spec's commitments to be carried into every ticket that needs them, not left behind a parent link ([issue #959](https://github.com/mattpocock/skills/issues/959)). Now each story and invariant travels by ID, and the quiz's `Coverage gaps` block lists every one that no ticket covers before anything is published. Stories the spec already accepted as verified at no seam still need a ticket, so an accepted seam gap never hides unbuilt behaviour.
+This used to fail silently. One user's spec had about 85 user stories and a critical invariant that the new writers must produce the complete serving model; a later ticket excluded that work as "another ticket" that was never created, and the gap surfaced only in the test environment ([issue #924](https://github.com/mattpocock/skills/issues/924)). Another report asked for the spec's commitments to be carried into every ticket that needs them, not left behind a parent link ([issue #959](https://github.com/mattpocock/skills/issues/959)). Now each story and invariant travels by ID, and the quiz's `Coverage gaps` block lists every one that no ticket covers before anything is published. Stories and invariants the spec already accepted as verified at no seam still need a ticket, so an accepted seam gap never hides unbuilt behaviour.
 
 **The seams I agreed in `/to-spec` weren't in the tickets.**
 They weren't: neither ticket template had a field for them, so the agreement was made, confirmed, and lost at this boundary ([issue #1078](https://github.com/mattpocock/skills/issues/1078)). Each ticket now has a `## Seams` section with the seams it is tested at, by ID, and [implement](https://aihero.dev/skills-implement) treats those as pre-agreed. A seam that no ticket carries shows up as a coverage gap.
