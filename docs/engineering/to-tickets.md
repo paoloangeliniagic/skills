@@ -108,7 +108,7 @@ The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is
 
 - Every ticket has an answer to "what can I demo when this is done?", and the answer is behaviour, not a layer.
 - The list comes back to you numbered, with a "Blocked by" line on each, before anything is published.
-- Every ticket has a `Covers:` line, and every gap has an explicit answer before publishing.
+- When the source has traceability IDs, every ticket has a `Covers:` line, and every gap has an explicit answer before publishing.
 - The ticket at the top has no blockers and can be started immediately.
 - Nothing in a ticket body is a file path or a line number, except ADR links and prototype snippets.
 - Each ticket reads like something a fresh session could finish without you in the room.
