@@ -26,7 +26,11 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
 4. Use **implementer subagents** to implement each ticket, each in its own worktree on its own branch. Each implementer subagent:
    - confirms its worktree is based on the integration branch before starting, and resets onto it if not;
+   - reads the ticket's `## Stories covered`, `## Invariants covered`, `## Seams` and `## Constraints (ADR)` before building: the listed seams are pre-agreed, and the covered stories and invariants are the behaviours `tdd` verifies;
+   - for an invariant that must be preserved, writes its test at the listed seam before changing anything and checks it passes on the current code; it must stay green after the change;
    - calls the Skill tool with `tdd` to build the ticket;
+   - never adds a seam: it reports each story or invariant it can't verify at the listed seams in its report back and as a comment on the ticket;
+   - checks that every `## Constraints (ADR)` line still holds before reporting done;
    - merges the integration branch tip into its own branch before reporting done
 
 5. Once an **implementer subagent** completes, merge its work to the integration branch with a **merger subagent**.
@@ -35,6 +39,6 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
 7. Once all tickets are complete, call the Skill tool with `code-review` on the integration branch. Fix all issues raised by the code review in a single **implementer subagent**.
 
-8. If a draft PR exists, mark it ready for review. Otherwise, resolve each ticket the way the issue tracker closes work, and report the integration branch.
+8. If a draft PR exists, mark it ready for review. Otherwise, resolve each ticket the way the issue tracker closes work, and report the integration branch. Either way, the final report lists every seam gap the implementer subagents reported.
 
 9. Clean up all **implementer subagent** worktrees.

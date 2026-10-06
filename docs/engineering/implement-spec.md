@@ -49,7 +49,7 @@ Both happen when `code-review` runs anywhere other than the one point the skill 
 
 **Does it drive tdd like implement does?**
 
-It does now, though it didn't at first. Users running the in-progress version noticed that "the implementer subagents don't inherit the /tdd directive", so red-green stopped as soon as they scaled up from one ticket to a whole spec. Each implementer now builds its ticket with `tdd`. There is still no step where you agree seams interactively, as there is in an `implement` session, so name the seams in the spec or the tickets if you want them pinned.
+It does now, though it didn't at first. Users running the in-progress version noticed that "the implementer subagents don't inherit the /tdd directive", so red-green stopped as soon as they scaled up from one ticket to a whole spec. Each implementer now builds its ticket with `tdd`. There is no step where you agree seams interactively, as there is in an `implement` session: the seams listed in the ticket's `## Seams` section are the pinned seams. Each implementer tests there, pins any invariant that must be preserved before changing code, and never adds a seam on its own. A story or invariant it can't verify at the listed seams goes into its report and onto the ticket as a comment, and the final report collects them all. If the tickets carry no `## Seams`, name the seams in the spec or the tickets if you want them pinned.
 
 **Two implementers running in parallel collided on the same file, or picked different names for the same thing.**
 
@@ -74,6 +74,7 @@ A worktree holds only what git tracks. Tests that read gitignored fixtures, loca
 - Every ticket's trace shows `tdd` running, with a failing test before the code.
 - Merges into the integration branch are fast-forwards, not conflict resolutions.
 - The run ends on one branch with every ticket resolved, and a PR only if your tracker wanted one.
+- The final report names any seam an implementer wanted but the ticket didn't list.
 
 ## Where it fits
 

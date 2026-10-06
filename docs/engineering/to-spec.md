@@ -27,11 +27,19 @@ The spec exists because context windows end. You settled many things while [gril
 
 So the spec does not validate or decide anything. It records what you decided, in your project's own vocabulary, so a fresh session can pick up the work without you explaining it again. If the spec states something you never said, that is a defect.
 
-## Seams before prose
+## Seams from stories
 
-Before it writes anything, `to-spec` sketches the **seams** where the feature will be tested, and checks them with you. It prefers existing seams to new ones, and picks the highest seam it can. The ideal number of seams for a change is one.
+`to-spec` writes the final, numbered user stories first, then derives the **seams** where they will be tested. Each story is `US<n>` by its number in the list. It starts from the highest existing seam that can verify the stories, and adds a new one, as high as it can, only when a story can't be verified at the seams it already has. The ideal number of seams for a change is one.
 
-Other skills use those agreed seams later. [tdd](https://aihero.dev/skills-tdd) works only at seams you agreed in advance. [code-review](https://aihero.dev/skills-code-review) reviews the diff against the spec, so a seam nobody agreed to shows up as a review finding. Both connections go through this document. That is why you should take the seam conversation seriously here, and not leave it for implementation.
+Each seam in the spec names the stories it verifies, so a seam that verifies nothing has no reason to exist. A story verified at no seam is not left silent either: it goes on a `Not verified at any seam` line with a reason. A refactor or module boundary has no user stories to verify, so the spec can carry numbered **invariants** (`I<n>`) instead, or alongside them: properties a caller relies on at an interface.
+
+All of this goes to you in one checkpoint before anything is published: the seams and what each verifies, the gaps, how each item was classified, and any conflict with an ADR. Each gap gets one of three answers:
+
+- add or raise a seam so it is verified;
+- accept it with a reason, which goes on the gap line;
+- move it to Out of Scope.
+
+Other skills use those agreed seams later. [tdd](https://aihero.dev/skills-tdd) works only at seams you agreed in advance. [code-review](https://aihero.dev/skills-code-review) reviews the diff against the spec, so a seam nobody agreed to shows up as a review finding. Both connections go through this document. That is why you should take the seam conversation seriously here, before publishing, where a wrong seam costs least, and not leave it for implementation.
 
 ## Common questions
 
@@ -54,10 +62,13 @@ Mostly for the agent, and it reads that way: complete, dense, and full of refere
 Nothing keeps it in sync. In practice it is a snapshot of what you knew at that moment, and it goes out of date the first time implementation teaches you something. Treat it as disposable after the work ships. Your `GLOSSARY.md` and ADRs are the files meant to last. If you learn something during implementation that should last, put it there, not in an edited spec.
 
 **My work is a refactor or a module boundary, not a feature. Does the template fit?**
-Less well, and this is a known limitation. The template relies heavily on user stories, which do not fit architectural work. You end up writing stories nobody asked for around decisions that are really about interfaces and invariants. Use the implementation-decisions and testing-decisions sections instead. Record the lasting architectural decisions as ADRs through [grill-with-docs](https://aihero.dev/skills-grill-with-docs), not in the spec.
+Yes, with `## Invariants`. Instead of writing stories nobody asked for around decisions that are really about interfaces, list the properties a caller relies on at the interface as numbered invariants, and let the seams verify those. A feature that carries a refactor inside it can have both sections. Record the lasting architectural decisions as ADRs through [grill-with-docs](https://aihero.dev/skills-grill-with-docs), not in the spec.
 
 **Will it check the tracker for related work, or cite the ADRs it's respecting?**
-No to both. It reads and follows the ADRs for the area it touches, but it does not link them. It also does not search the tracker for overlapping issues before it writes, so a spec can duplicate work that someone already filed, and nothing warns you. If the area is busy, search the tracker yourself first.
+It cites the ADRs, but not every one it read. A `## Constraints (ADR)` section lists only the ADRs that rule out an option the implementer could otherwise pick, one line each plus a link. An ADR the spec contradicts is raised at the checkpoint, and if you choose to reopen it, its line says so; the ADR file itself is left for [domain-modeling](https://aihero.dev/skills-domain-modeling). It does not search the tracker for overlapping issues before it writes, so a spec can duplicate work that someone already filed, and nothing warns you. If the area is busy, search the tracker yourself first.
+
+**How do the stories and seams reach the tickets?**
+By ID. Before this, the seam agreement was made, confirmed, and then lost at the [to-tickets](https://aihero.dev/skills-to-tickets) boundary, because no ticket had a field for it ([issue #1078](https://github.com/mattpocock/skills/issues/1078)); others asked for user stories inside each ticket so a smaller agent could pick it up cold ([issue #328](https://github.com/mattpocock/skills/issues/328)). Every story, invariant and seam in the spec now has a stable ID (`US3`, `I2`, `S1`) that `to-tickets` copies, with its text, into the tickets that cover it. The IDs are appended only and never reused: a removed item stays in place, struck through and marked `(removed)`, so an ID already in a ticket never points at the wrong item.
 
 **`/to-tickets` couldn't read my spec: it kept truncating.**
 A tracker issue may not return a very large spec in full, and there is no local copy to use instead. To fix this, do not [clear](https://www.aihero.dev/ai-coding-dictionary/clearing) or [compact](https://www.aihero.dev/ai-coding-dictionary/compaction) between `/to-spec` and `/to-tickets`. Run them in the same window, and `/to-tickets` never has to fetch the spec again.
@@ -65,7 +76,7 @@ A tracker issue may not return a very large spec in full, and there is no local 
 ## It's working if
 
 - It starts writing instead of asking you a new round of questions.
-- It shows you the seams before it writes, and proposes as few as it can.
+- Every seam names the stories or invariants it verifies, and any item without a seam is declared with a reason.
 - It uses your project's nouns, not generic product-management boilerplate.
 - You remember making every decision in it. It invented nothing to fill a section.
 - The out-of-scope section lists real things. The things you refused are usually the most useful lines on the page.
