@@ -20,7 +20,7 @@ Note which traceability sections the source has: `## User Stories` (`US<n>`), `#
 
 ### 2. Explore the codebase (optional)
 
-If you have not already explored the codebase, do so to understand the current state of the code. Ticket titles and descriptions should use the project's domain glossary vocabulary. Read the ADRs in the area you're touching: an ADR that constrains a ticket but is missing from the spec's `## Constraints (ADR)` still goes on that ticket and is flagged in the quiz, and so is any conflict with an ADR you find here first.
+If you have not already explored the codebase, do so to understand the current state of the code. Ticket titles and descriptions should use the project's domain glossary vocabulary. Read the ADRs in the area you're touching. An ADR that constrains a ticket but is missing from the spec's `## Constraints (ADR)` still goes on that ticket, and is flagged in the quiz. A conflict with an ADR that you find here first is flagged in the quiz too, and goes on a ticket only once the user has decided it.
 
 Look for opportunities to prefactor the code to make the implementation easier. "Make the change easy, then make the easy change."
 
@@ -57,7 +57,7 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 - **Title**: short descriptive name
 - **Blocked by**: which other tickets (if any) must complete first
 - **What it delivers**: the end-to-end behaviour this ticket makes work
-- **Covers**: the IDs it carries, as `Covers: US1, US3 · I2 · S1 · ADR-0002`
+- **Covers**: the IDs it carries, as `Covers: US1, US3 · I2 · S1 · ADR-0002` (omit when the source has no IDs)
 
 After the list, show one **Coverage gaps** block listing only what no ticket covers, plus "ADR-NNNN not cited by the spec" for each ADR you added in step 2, and each ADR conflict you found in step 2 that the spec doesn't already record. Omit the block when it would be empty.
 
@@ -66,13 +66,13 @@ After the list, show one **Coverage gaps** block listing only what no ticket cov
 - Stories and invariants on the spec's `Not verified at any seam` line still need a ticket.
 - If the source has no traceability sections, print `No traceability IDs in the source: coverage check skipped.` instead of the block. If it has only some, check only those.
 
-Every gap needs an explicit answer before publishing, but none blocks it:
+Every uncovered ID needs an explicit answer before publishing, but none blocks it:
 
 - **Cover**: add the ID to an existing ticket or create one, then recalculate the breakdown.
 - **Out of scope** (stories and invariants only), with a reason.
 - **Accept**, with a reason: nothing will be built for it. For seams and ADRs this is the only alternative to cover.
 
-For an ADR conflict, the choices are to adapt the ticket or to reopen the ADR (the ticket's line then reads "contradicted, worth reopening because <reason>").
+For an ADR conflict, the choices are to adapt the ticket or to reopen the ADR. Reopening puts the line "contradicted, worth reopening because <reason>" on the ticket, together with the acceptance criterion "ADR-NNNN updated or superseded by a new ADR".
 
 Ask the user:
 
@@ -137,6 +137,7 @@ Do NOT close the parent issue or edit its body: the `Coverage` comment is the on
 
 - [ ] Acceptance criterion 1
 - [ ] Acceptance criterion 2
+- [ ] ADR-0007 updated or superseded by a new ADR (only when a constraint line says "contradicted")
 
 </local-ticket-template>
 

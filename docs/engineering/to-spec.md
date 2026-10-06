@@ -33,7 +33,13 @@ So the spec does not validate or decide anything. It records what you decided, i
 
 Each seam in the spec names the stories it verifies, so a seam that verifies nothing has no reason to exist. A story verified at no seam is not left silent either: it goes on a `Not verified at any seam` line with a reason. A refactor or module boundary has no user stories to verify, so the spec can carry numbered **invariants** (`I<n>`) instead, or alongside them: properties a caller relies on at an interface.
 
-All of this goes to you in one checkpoint before anything is published: the seams and what each verifies, the gaps, how each item was classified, and any conflict with an ADR. You decide each gap there (add or raise a seam, accept it with a reason, or move it out of scope). Other skills use those agreed seams later. [tdd](https://aihero.dev/skills-tdd) works only at seams you agreed in advance. [code-review](https://aihero.dev/skills-code-review) reviews the diff against the spec, so a seam nobody agreed to shows up as a review finding. Both connections go through this document. That is why you should take the seam conversation seriously here, before publishing, where a wrong seam costs least, and not leave it for implementation.
+All of this goes to you in one checkpoint before anything is published: the seams and what each verifies, the gaps, how each item was classified, and any conflict with an ADR. Each gap gets one of three answers:
+
+- add or raise a seam so it is verified;
+- accept it with a reason, which goes on the gap line;
+- move it to Out of Scope.
+
+Other skills use those agreed seams later. [tdd](https://aihero.dev/skills-tdd) works only at seams you agreed in advance. [code-review](https://aihero.dev/skills-code-review) reviews the diff against the spec, so a seam nobody agreed to shows up as a review finding. Both connections go through this document. That is why you should take the seam conversation seriously here, before publishing, where a wrong seam costs least, and not leave it for implementation.
 
 ## Common questions
 
